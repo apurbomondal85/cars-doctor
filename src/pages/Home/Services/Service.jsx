@@ -4,7 +4,7 @@ import { FaArrowRight } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 
 function Service({ service }) {
-    const {img, title, price} = service
+    const {_id, img, title, price} = service
 
     return (
         <div className="bg-white shadow-md rounded-md p-6">
@@ -16,7 +16,7 @@ function Service({ service }) {
             <h2 className="text-lg font-bold text-gray-800 mb-2">{title}</h2>
             <div className='text-[#FF3811] flex justify-between items-center'>
                 <p className='font-semibold'>Price : ${price}</p>
-                <Link><FaArrowRight></FaArrowRight></Link>
+                <Link to={`/book/${_id}`}><FaArrowRight></FaArrowRight></Link>
             </div>
         </div>
     )

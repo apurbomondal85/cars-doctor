@@ -1,6 +1,6 @@
 
 import img from '../../assets/images/login/login.svg'
-import { Link } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { FaFacebook, FaLinkedinIn } from 'react-icons/fa'
 import { FcGoogle } from 'react-icons/fc'
 import { useContext } from 'react'
@@ -8,22 +8,41 @@ import { AuthContext } from '../../AuthProvider/AuthProvider'
 
 function Login() {
     const {login} = useContext(AuthContext)
+    const location = useLocation();
+    const navigate = useNavigate()
 
+    const from = location?.state?.from?.pathname || "/";
     const handleLogin= e => {
         e.preventDefault()
         const form = e.target;
         const email = form.email.value;
         const password = form.password.value;
-
+        
         login(email, password)
-            .then((userCredential) => {
-                const user = userCredential.user;
-                form.reset();
+        .then((userCredential) => {
+            const user = userCredential.user;
+            form.reset();
+            const userName = {
+                email: user.email
+            }
+            fetch('http://localhost:5000/jwt', {
+                method: 'POST',
+                headers: {
+                    "content-type": 'application/json'
+                },
+                body: JSON.stringify(userName)
+            })
+            .then(res => res.json())
+            .then(data=> {
+                localStorage.setItem('cars-token', data.token)
+                navigate(from, {replace: true})
+            })
+
             })
             .catch((error) => {
                 const errorCode = error.code;
                 const errorMessage = error.message;
-                console.log(errorCode);
+                console.log(errorCode,errorMessage);
             });
 
     }

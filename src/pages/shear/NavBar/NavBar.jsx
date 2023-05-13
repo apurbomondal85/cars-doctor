@@ -3,8 +3,18 @@ import { Button, Navbar } from "flowbite-react"
 import logo from '../../../assets/logo.svg'
 import { Link } from "react-router-dom"
 import { FaSearch, FaShoppingBag } from "react-icons/fa";
+import { useContext } from "react";
+import { AuthContext } from "../../../AuthProvider/AuthProvider";
 
 function NavBar() {
+  const {logOut, user} = useContext(AuthContext)
+
+  const handleLogOut = () =>{
+    logOut().then(
+      localStorage.removeItem('cars-token')
+    ).catch()
+  }
+
   return (
     <Navbar
       fluid={true}
@@ -41,9 +51,12 @@ function NavBar() {
         <Link to="/blog">
           Blog
         </Link>
-        <Link to="/contact">
-          Contact
-        </Link>
+        {
+          user?.email && <Link to='/bookings'>Bookings</Link>
+        }
+        {
+          user ? <Link onClick={handleLogOut}>LogOut</Link> : <Link to="/login">Login</Link>
+        }
       </Navbar.Collapse>
     </Navbar>
   )

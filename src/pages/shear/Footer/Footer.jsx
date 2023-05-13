@@ -5,7 +5,7 @@ import logo from '../../../assets/logo.svg'
 
 function Footers() {
     return (
-        <Footer container={true} className="bg-slate-950 text-white py-20">
+        <Footer container={true} style={{backgroundColor: "black"}} className="text-white py-20">
             <div className="w-full px-20">
                 <div className="grid w-full justify-between sm:flex sm:justify-between md:flex md:grid-cols-1">
                     <div className="w-1/3 space-y-4">
